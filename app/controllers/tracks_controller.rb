@@ -46,6 +46,6 @@ class TracksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def track_params
-      params.require(:track).permit(:name, :artist, :release)
+      params.require(:track).permit(:name, :artist, :release, :file)
     end
 end
