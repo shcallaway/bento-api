@@ -4,7 +4,7 @@ class Track < ApplicationRecord
 
   # Validate fields.
   validate :file_size
-  # validates :title, :file, :artist, :release, presence: true
+  validates :name, :file, :artist, :release, presence: true
 
   private
 
