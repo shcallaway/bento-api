@@ -13,6 +13,18 @@ class TracksController < ApplicationController
     render json: @track
   end
 
+  # The Postman request for creating a track should look like this:
+
+  # POST http://localhost:3000/tracks 
+  # Headers: none
+  # Body: form-data
+
+  # track[name]   | Sexy Back               | text
+  # track[artist] | Justin Timberlake       | text
+  # track[title]  | Future Sex Love Sounds  | text
+  # track[file]   | Choose file             | file
+
+
   # POST /tracks
   def create
     @track = Track.new(track_params)
