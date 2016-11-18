@@ -21,8 +21,8 @@ module V1
     # The Postman request for creating a track should look like this:
 
     # POST http://localhost:3000/v1/tracks 
-    # Headers: none
-    # Body: form-data
+    # Headers: Authorization | Token token=10f251790e0d2d5d7a12f93b5caedd10
+    # Body: [x] form-data
 
     # track[name]   | Sexy Back               | text
     # track[artist] | Justin Timberlake       | text
