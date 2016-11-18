@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   namespace :v1, defaults: { format: 'json' } do
     resources :tracks
-    resources :api_keys, only: [ :create ]
   end
+  
+  resources :api_keys, only: [ :create ]
 
   # To add another version, create a new namespace:
 
   # namespace :v2 do
   #   resources :tracks
-  #   resources :api_keys, only: [ :create ]
   # end
 
   # Copy the v1 directory to a v2 directiory,
