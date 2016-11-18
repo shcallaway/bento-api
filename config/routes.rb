@@ -1,3 +1,18 @@
 Rails.application.routes.draw do
-  resources :tracks
+  namespace :v1, defaults: { format: 'json' } do
+    resources :tracks
+  end
+
+  # To add another version, create a new namespace:
+
+  # namespace :v2 do
+  #   resources :tracks
+  # end
+
+  # Copy the v1 directory to a v2 directiory,
+  # and change the module name to V2.
+
+  # For more information and potential improvements, see:
+  # http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
+
 end
