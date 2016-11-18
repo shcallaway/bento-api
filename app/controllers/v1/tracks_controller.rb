@@ -30,8 +30,7 @@ module V1
       @track = Track.new(track_params)
 
       if @track.save
-          render json: @track, status: :created, location: v1_track_url(@track)
-        # redirect_to v1_track_url(@track)
+        render json: @track, status: :created, location: v1_track_url(@track)
       else
         render json: @track.errors, status: :unprocessable_entity
       end
