@@ -2,6 +2,10 @@ module V1
   class TracksController < ApplicationController
     before_action :set_track, only: [:show, :update, :destroy]
 
+    # Token-based authentication.
+    include ActionController::HttpAuthentication::Token::ControllerMethods
+    before_action :restrict_access
+
     # GET /tracks
     def index
       @tracks = Track.all
@@ -60,6 +64,19 @@ module V1
     # Only allow a trusted parameter "white list" through.
     def track_params
       params.require(:track).permit(:name, :artist, :release, :file)
+    end
+
+    # Check if api key exists, and is not expired.
+    def restrict_access
+      authenticate_or_request_with_http_token do |token, options|
+        key_exists = ApiKey.exists?(token: token)
+        if key_exists
+          key_expiry = ApiKey.where(token: token).first.expiry
+          return true if key_expiry > DateTime.now
+        else 
+          false
+        end
+      end
     end
   end
 end 
