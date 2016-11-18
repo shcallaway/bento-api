@@ -10,6 +10,8 @@ class ApiKey < ApplicationRecord
   end
 
   def generate_expiry
+    # Set the expiration date to 3 days from now.
+    # I picked this period randomly.
     self.expiry = DateTime.now + 3
   end
 end

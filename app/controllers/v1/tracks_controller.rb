@@ -70,12 +70,17 @@ module V1
     def restrict_access
       authenticate_or_request_with_http_token do |token, options|
         key_exists = ApiKey.exists?(token: token)
+
+        # If the key exists, check to see if it's expired.
         if key_exists
+          
+          # If expiry date is later than right now, return true.
           key_expiry = ApiKey.where(token: token).first.expiry
           return true if key_expiry > DateTime.now
-        else 
-          false
         end
+
+        # If the key doesn't exist, or is expired, return false.
+        false
       end
     end
   end
