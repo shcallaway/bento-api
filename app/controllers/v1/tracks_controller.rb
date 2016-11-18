@@ -16,7 +16,7 @@ module V1
 
     # The Postman request for creating a track should look like this:
 
-    # POST http://localhost:3000/tracks 
+    # POST http://localhost:3000/v1/tracks 
     # Headers: none
     # Body: form-data
 
@@ -25,13 +25,13 @@ module V1
     # track[title]  | Future Sex Love Sounds  | text
     # track[file]   | Choose file             | file
 
-
     # POST /tracks
     def create
       @track = Track.new(track_params)
 
       if @track.save
-        render json: @track, status: :created, location: @track
+          render json: @track, status: :created, location: v1_track_url(@track)
+        # redirect_to v1_track_url(@track)
       else
         render json: @track.errors, status: :unprocessable_entity
       end
@@ -52,14 +52,15 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_track
-        @track = Track.find(params[:id])
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def track_params
-        params.require(:track).permit(:name, :artist, :release, :file)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_track
+      @track = Track.find(params[:id])
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def track_params
+      params.require(:track).permit(:name, :artist, :release, :file)
+    end
   end
 end 
