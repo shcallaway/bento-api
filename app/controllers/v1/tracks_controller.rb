@@ -3,8 +3,8 @@ module V1
     before_action :set_track, only: [:show, :update, :destroy]
 
     # Token-based authentication. To disable, remove these lines. 
-    include ActionController::HttpAuthentication::Token::ControllerMethods
-    before_action :restrict_access
+    # include ActionController::HttpAuthentication::Token::ControllerMethods
+    # before_action :restrict_access
 
     # GET /tracks
     def index
