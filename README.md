@@ -8,32 +8,36 @@ Method: POST
 
 Headers: 
 
-Authorization | Token token=10f251790e0d2d5d7a12f93b5caedd10
+| Key            | Value                                        |
+| -------------- | -------------------------------------------- |
+| Authorization  | Token token=10f251790e0d2d5d7a12f93b5caedd10 |
 
 Body: form-data
 
-track[name]   | Sexy Back               | text
-track[artist] | Justin Timberlake       | text
-track[title]  | FutureSex/LoveSounds    | text
-track[file]   |                         | file
+| Key            | Value                | Type          |
+| -------------- | -------------------- | ------------- |
+| track[name]    | Sexy Back            | text          |
+| track[artist]  | Justin Timberlake    | text          |
+| track[release] | FutureSex/LoveSounds | text          |
+| track[file]    |                      | file          |
 
 ## Environment Variables
 
 Your .env file should include:
 
-Ask the lead developer for one of these.
+(Ask the lead developer for one of these.)
 
 * AWS_ACCESS_KEY_ID
 * AWS_SECRET_ACCESS_KEY
 
-Get these from S3.
+(Get these from AWS S3.)
 
 * AWS_S3_BUCKET_DEV
 * AWS_S3_BUCKET_TEST
 * AWS_S3_BUCKET_PROD
 * AWS_REGION
 
-Generate this with: RAILS_ENV=production rake secret
+(Generate this with: `RAILS_ENV=production rake secret`)
 
 * PROD_SECRET_KEY_BASE
 
