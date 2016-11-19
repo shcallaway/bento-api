@@ -2,7 +2,7 @@ module V1
   class TracksController < ApplicationController
     before_action :set_track, only: [:show, :update, :destroy]
 
-    # Token-based authentication. To disable, remove these lines.
+    # Token-based authentication. To disable, remove these lines. 
     include ActionController::HttpAuthentication::Token::ControllerMethods
     before_action :restrict_access
 
