@@ -6,6 +6,7 @@ CarrierWave.configure do |config|
     region: ENV['AWS_REGION'] 
   }
 
+  # Upload to a different S3 bucket for each environment.
   if Rails.env.development?
     config.fog_directory = ENV['AWS_S3_BUCKET_DEV']
   elsif Rails.env.test?
