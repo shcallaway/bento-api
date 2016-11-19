@@ -43,9 +43,9 @@ Your .env file should include:
 
 ## Authentication
 
-The API uses simple token-based authentication to prevent consumers from abusing the endpoints. It's easy to generate an api key -- just send a POST request to the /api_keys route. The keys expire after a short period of time. To disable authentication for development purposes, comment-out this line from tracks_controller.rb:
+The API uses simple token-based authentication to prevent consumers from abusing the endpoints. It's easy to generate an api key -- just send a POST request to the /api_keys route. The keys expire after a short period of time. To disable authentication for development purposes, comment out this line from tracks_controller.rb:
 
-before_action :restrict_access
+`before_action :restrict_access`
 
 This line calls the restrict_access method, which checks for a valid token.
 
