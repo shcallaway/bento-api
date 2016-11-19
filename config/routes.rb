@@ -17,5 +17,4 @@ Rails.application.routes.draw do
   # For more information and potential improvements, see:
   # http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
   # http://railscasts.com/episodes/352-securing-an-api?autoplay=true
-
 end
