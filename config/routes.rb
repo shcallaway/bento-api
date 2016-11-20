@@ -4,12 +4,14 @@ Rails.application.routes.draw do
     resources :tracks
   end
   
+  # You can generate a token for any API version,
+  # without using a specific namespace.
   resources :api_keys, only: [ :create ]
 
   # To add another version, create a new namespace:
 
   # namespace :v2 do
-  #   resources :tracks
+  #   resources ...
   # end
 
   # Copy the v1 directory to a v2 directiory,
