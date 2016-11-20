@@ -92,11 +92,7 @@ module V1
       json = "{["
       # Add each track to the JSON.
       tracks.each do |track|
-        json += "{\"id\": \"#{track.id}\",
-        \"name\": \"#{track.name}\",
-        \"artist\": {\"id\": \"#{track.artist.id}\",\"name\": \"#{track.artist.name}\"},
-        \"release\": \"#{track.release}\",
-        \"file\": \"#{track.file.url}\"}"
+        json += serialize_track(track)
         # Add a comma if there are more tracks.
         json += "," unless track == tracks.last
       end

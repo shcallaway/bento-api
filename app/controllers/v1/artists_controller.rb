@@ -70,8 +70,7 @@ module V1
     def serialize_artists(artists) 
       json = "{["
       artists.each do |artist|
-        json += "{\"id\": \"#{artist.id}\",
-        \"name\": \"#{artist.name}\"}"
+        json += serialize_artist(artist)
         json += "," unless artist == artists.last
       end
       json += "]}"
