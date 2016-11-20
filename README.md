@@ -28,9 +28,6 @@ $ rake db:migrate
 $ rails server
 ```
 
-
-
-
 ## Authentication
 
 The API uses simple token-based authentication to prevent consumers from abusing the endpoints. It's easy to generate an api key -- just send a POST request to the /api_keys route. The keys expire after a short period of time. To disable authentication for a given controller (for development purposes), comment out this line:
@@ -80,7 +77,11 @@ Your .env file should include:
 * AWS_S3_BUCKET_PROD
 * AWS_REGION
 
-(Run: `$ RAILS_ENV=production rake secret`) 
+(Run the following command:)
+
+```
+$ RAILS_ENV=production rake secret
+```
 
 * PROD_SECRET_KEY_BASE
 
