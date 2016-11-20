@@ -1,10 +1,13 @@
 class Track < ApplicationRecord
+  # Each track belongs to an artist.
+  belongs_to :artist
+
   # Mount the TrackUploader to the file attribute.
   mount_uploader :file, TrackUploader
 
   # Validate fields.
   validate :max_file_size
-  validates :name, :file, :artist, :release, presence: true
+  validates :name, :artist, :release, :file, presence: true
 
   private
 
