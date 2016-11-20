@@ -38,9 +38,14 @@ module V1
     # PATCH/PUT /artists/1
     def update
       if @artist.update(artist_params)
-        render json: @artist
+        render json: {
+          id: @artist.id,
+          name: @artist.name,
+        }
       else
-        render json: @artist.errors, status: :unprocessable_entity
+        render json: {
+          errors: @artist.errors
+        }, status: :unprocessable_entity
       end
     end
 

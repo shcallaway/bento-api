@@ -70,9 +70,20 @@ module V1
     # PATCH/PUT /tracks/1
     def update
       if @track.update(track_params)
-        render json: @track
+        render json: {
+          id: @track.id,
+          name: @track.name,
+          artist: {
+            id: @track.artist.id,
+            name: @track.artist.name
+          },
+          release: @track.release,
+          file: @track.file.url
+        }
       else
-        render json: @track.errors, status: :unprocessable_entity
+        render json: { 
+          errors: @track.errors
+        }, status: :unprocessable_entity
       end
     end
 
