@@ -8,15 +8,12 @@ module V1
     # GET /artists
     def index
       @artists = Artist.all
-      render json: serialize_artists(@artists)
+      render json: serialize(@artists)
     end
 
     # GET /artists/1
     def show
-      render json: {
-        id: @artist.id,
-        name: @artist.name,
-      }
+      render json: serialize(@artist)
     end
 
     # POST /artists
@@ -24,10 +21,7 @@ module V1
       @artist = Artist.new(artist_params)
 
       if @artist.save
-        render json: {
-          id: @artist.id,
-          name: @artist.name,
-        }, status: :created, location: v1_artist_url(@artist)
+        render json: serialize_artist(@artist), status: :created, location: v1_artist_url(@artist)
       else
         render json: {
           errors: @artist.errors, status: :unprocessable_entity
@@ -38,10 +32,7 @@ module V1
     # PATCH/PUT /artists/1
     def update
       if @artist.update(artist_params)
-        render json: {
-          id: @artist.id,
-          name: @artist.name,
-        }
+        render json: serialize(@artist)
       else
         render json: {
           errors: @artist.errors
@@ -66,6 +57,15 @@ module V1
       params.require(:artist).permit(:name)
     end
 
+    # Wrapper/router for serializers. 
+    def serialize(resource)
+      if resource.respond_to?(:each)
+        serialize_artists(resource)
+      else
+        serialize_artist(resource)
+      end
+    end
+
     # Custom serializer for artists.
     def serialize_artists(artists) 
       json = "{["
@@ -76,5 +76,10 @@ module V1
       end
       json += "]}"
     end
+
+    def serialize_artist(artist)
+      json = "{\"id\": \"#{artist.id}\",
+      \"name\": \"#{artist.name}\"}"
+    end       
   end
 end 
