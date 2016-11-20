@@ -8,12 +8,15 @@ module V1
     # GET /artists
     def index
       @artists = Artist.all
-      render json: @artists
+      render json: serialize_artists(@artists)
     end
 
     # GET /artists/1
     def show
-      render json: @artist
+      render json: {
+        id: @artist.id,
+        name: @artist.name,
+      }
     end
 
     # POST /artists
@@ -21,7 +24,10 @@ module V1
       @artist = Artist.new(artist_params)
 
       if @artist.save
-        render json: @artist, status: :created, location: v1_artist_url(@artist)
+        render json: {
+          id: @artist.id,
+          name: @artist.name,
+        }, status: :created, location: v1_artist_url(@artist)
       else
         render json: {
           errors: @artist.errors, status: :unprocessable_entity
@@ -53,6 +59,17 @@ module V1
     # Only allow a trusted parameter "white list" through.
     def artist_params
       params.require(:artist).permit(:name)
+    end
+
+    # Custom serializer for artists.
+    def serialize_artists(artists) 
+      json = "{["
+      artists.each do |artist|
+        json += "{\"id\": \"#{artist.id}\",
+        \"name\": \"#{artist.name}\"}"
+        json += "," unless artist == artists.last
+      end
+      json += "]}"
     end
   end
 end 
