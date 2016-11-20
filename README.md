@@ -1,6 +1,14 @@
-## Creating a Track
+## Authentication
 
-The request for creating a track should look like this:
+The API uses simple token-based authentication to prevent consumers from abusing the endpoints. It's easy to generate an api key -- just send a POST request to the /api_keys route. The keys expire after a short period of time. To disable authentication for a given controller (for development purposes), comment out this line:
+
+`before_action :restrict_access`
+
+This line calls the restrict_access method, which checks for a valid token.
+
+## Create a Track with Postman
+
+The API's most complicated route is easily 'create a track'. Here's an example of a POST /v1/tracks request, made with Postman:
 
 URL: http://localhost:3000/v1/tracks 
 
@@ -37,17 +45,71 @@ Your .env file should include:
 * AWS_S3_BUCKET_PROD
 * AWS_REGION
 
-(Generate this with: `RAILS_ENV=production rake secret`)
+(Run: `RAILS_ENV=production rake secret`)
 
 * PROD_SECRET_KEY_BASE
 
-## Authentication
+## JSON Format
 
-The API uses simple token-based authentication to prevent consumers from abusing the endpoints. It's easy to generate an api key -- just send a POST request to the /api_keys route. The keys expire after a short period of time. To disable authentication for a given controller (for development purposes), comment out this line:
+### GET /v1/tracks
 
-`before_action :restrict_access`
+{
+  [
+    {
+      "id": "1",
+      "name": "Sexy Back",
+      "artist": {
+        "id": "1",
+        "name": "Justin Timberlake"
+      },
+      "release": "FutureSex/LoveSounds",
+      "file": "https://bento-development.s3.amazonaws.com/uploads/sexy-back_justin-timberlake_futuresex/lovesounds"
+    }
+  ]
+}
 
-This line calls the restrict_access method, which checks for a valid token.
+### GET /v1/tracks/1
+
+{
+  "id": "1",
+  "name": "Sexy Back",
+  "artist": {
+    "id": "1",
+    "name": "Justin Timberlake"
+  },
+  "release": "FutureSex/LoveSounds",
+  "file": "https://bento-development.s3.amazonaws.com/uploads/sexy-back_justin-timberlake_futuresex/lovesounds"
+}
+
+### GET /v1/artists
+
+{
+  [
+    {
+      "id": "1",
+      "name": "Justin Timberlake"
+    }
+  ]
+} 
+
+### GET /v1/artists/1
+
+{
+  "id": "1",
+  "name": "Justin Timberlake"
+}
+
+### POST /api_keys
+
+{
+  "api_key": {
+    "id": 1,
+    "token": "f078b7be5f2c0932d2219cadecdd751b",
+    "created_at": "2016-11-20T20:03:45.000Z",
+    "updated_at": "2016-11-20T20:03:45.000Z",
+    "expiry": "2016-11-23T20:03:45.000Z"
+  }
+}
 
 # README
 
