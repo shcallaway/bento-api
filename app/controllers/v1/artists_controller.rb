@@ -8,7 +8,6 @@ module V1
     # GET /artists
     def index
       @artists = Artist.all
-
       render json: @artists
     end
 
@@ -24,7 +23,9 @@ module V1
       if @artist.save
         render json: @artist, status: :created, location: v1_artist_url(@artist)
       else
-        render json: @artist.errors, status: :unprocessable_entity
+        render json: {
+          errors: @artist.errors, status: :unprocessable_entity
+        }
       end
     end
 

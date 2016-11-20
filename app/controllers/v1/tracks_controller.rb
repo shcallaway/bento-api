@@ -8,13 +8,21 @@ module V1
     # GET /tracks
     def index
       @tracks = Track.all
-
-      render json: @tracks
+      render json: serialize_tracks(@tracks)
     end
 
     # GET /tracks/1
     def show
-      render json: @track
+      render json: {
+        id: @track.id,
+        name: @track.name,
+        artist: {
+          id: @track.artist.id,
+          name: @track.artist.name
+        },
+        release: @track.release,
+        file: @track.file.url
+      }
     end
 
     # POST /tracks
@@ -27,7 +35,7 @@ module V1
       @track.release = track_params[:release]
       @track.file = track_params[:file]
 
-      # Look for an artist with the supplied artist name. 
+      # Look for an artist with the supplied artist name.
       # If it exists, assign it to the track.
       if Artist.exists?(name: track_params[:artist])
         @track.artist = Artist.where(name: track_params[:artist]).first
@@ -35,14 +43,27 @@ module V1
         # If it does not exist, create a new artist with the name.
         @track.artist = Artist.new(name: track_params[:artist])
         # Check the new artist for validity; Render artist errors if invalid.
-        return render json: @track.artist.errors, status: :unprocessable_entity unless @track.artist.valid?
+        return render json: {
+          errors: @track.artist.errors
+        }, status: :unprocessable_entity unless @track.artist.valid?
       end
 
       # Attempt to save the track.
       if @track.save
-        render json: @track, status: :created, location: v1_track_url(@track)
+        render json: {
+          id: @track.id,
+          name: @track.name,
+          artist: {
+            id: @track.artist.id,
+            name: @track.artist.name
+          },
+          release: @track.release,
+          file: @track.file.url
+        }, status: :created, location: v1_track_url(@track)
       else
-        render json: @track.errors, status: :unprocessable_entity
+        render json: {
+          errors: @track.errors
+        }, status: :unprocessable_entity
       end
     end
 
@@ -70,6 +91,24 @@ module V1
     # Only allow a trusted parameter "white list" through.
     def track_params
       params.require(:track).permit(:name, :artist, :release, :file)
+    end
+
+    # Custom serialzier for tracks index route. 
+    # (I was tired of fighting ActiveModel Serializer to get what I wanted.)
+    def serialize_tracks(tracks)
+      json = "{["
+      # Add each track to the JSON.
+      tracks.each do |track|
+        json += "{\"id\": \"#{track.id}\",
+        \"name\": \"#{track.name}\",
+        \"artist\": {\"id\": \"#{track.artist.id}\",\"name\": \"#{track.artist.name}\"},
+        \"release\": \"#{track.release}\",
+        \"file\": \"#{track.file.url}\"}"
+        # Add a comma if there are more tracks.
+        json += "," unless track == tracks.last
+      end
+      # Close out the JSON and return.
+      json += "]}"
     end
   end
 end 
