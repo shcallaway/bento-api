@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120040255) do
+ActiveRecord::Schema.define(version: 20161120144624) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "token"
@@ -27,11 +27,13 @@ ActiveRecord::Schema.define(version: 20161120040255) do
 
   create_table "tracks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.string   "artist"
     t.string   "release"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "file"
+    t.integer  "artist_id"
+    t.index ["artist_id"], name: "index_tracks_on_artist_id", using: :btree
   end
 
+  add_foreign_key "tracks", "artists"
 end

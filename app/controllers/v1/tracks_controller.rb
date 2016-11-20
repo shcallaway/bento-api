@@ -3,7 +3,7 @@ module V1
     before_action :set_track, only: [:show, :update, :destroy]
     
     # Enables authentication for this controller.
-    before_action :restrict_access
+    # before_action :restrict_access
 
     # GET /tracks
     def index
@@ -19,8 +19,24 @@ module V1
 
     # POST /tracks
     def create
-      @track = Track.new(track_params)
+      # Create a new track, without any attributes.
+      @track = Track.new
 
+      # Populate attributes via params.
+      @track.name = track_params[:name]
+      @track.release = track_params[:release]
+      @track.file = track_params[:file]
+
+      # Look for an artist with the supplied artist_name. 
+      # If it exists, assign it to the track.
+      if Artist.exists?(name: track_params[:artist_name])
+        @track.artist = Artist.where(name: track_params[:artist_name])
+      else 
+        # If it does not exist, create a new artist with the name.
+        @track.artist = Artist.new(name: track_params[:artist_name])
+      end
+
+      # Attempt to save the new track.
       if @track.save
         render json: @track, status: :created, location: v1_track_url(@track)
       else
@@ -51,7 +67,7 @@ module V1
 
     # Only allow a trusted parameter "white list" through.
     def track_params
-      params.require(:track).permit(:name, :artist, :release, :file)
+      params.require(:track).permit(:name, :artist_name, :release, :file)
     end
   end
 end 

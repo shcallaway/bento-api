@@ -3,7 +3,7 @@ module V1
     before_action :set_artist, only: [:show, :update, :destroy]
 
     # Enables authentication for this controller.
-    before_action :restrict_access
+    # before_action :restrict_access
 
     # GET /artists
     def index
