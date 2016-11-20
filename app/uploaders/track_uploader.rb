@@ -9,7 +9,7 @@ class TrackUploader < CarrierWave::Uploader::Base
   # Standardize file names! 
   # For example: sexy-back_justin-timberlake_futuresex/lovesounds
   def filename
-    filename = (model.artist.id + '_' + model.release + '_' + model.id + '_').downcase.gsub(/\s/, '-')
+    filename = (model.name + '_' + model.artist.name + '_' + model.release).downcase.gsub(/\s/, '-')
     "#{filename}" if original_filename 
   end
 end

@@ -3,7 +3,7 @@ module V1
     before_action :set_track, only: [:show, :update, :destroy]
     
     # Enables authentication for this controller.
-    # before_action :restrict_access
+    # before_action :check_for_api_token
 
     # GET /tracks
     def index
@@ -27,16 +27,18 @@ module V1
       @track.release = track_params[:release]
       @track.file = track_params[:file]
 
-      # Look for an artist with the supplied artist_name. 
+      # Look for an artist with the supplied artist name. 
       # If it exists, assign it to the track.
-      if Artist.exists?(name: track_params[:artist_name])
-        @track.artist = Artist.where(name: track_params[:artist_name])
+      if Artist.exists?(name: track_params[:artist])
+        @track.artist = Artist.where(name: track_params[:artist]).first
       else 
         # If it does not exist, create a new artist with the name.
-        @track.artist = Artist.new(name: track_params[:artist_name])
+        @track.artist = Artist.new(name: track_params[:artist])
+        # Check the new artist for validity; Render artist errors if invalid.
+        return render json: @track.artist.errors, status: :unprocessable_entity unless @track.artist.valid?
       end
 
-      # Attempt to save the new track.
+      # Attempt to save the track.
       if @track.save
         render json: @track, status: :created, location: v1_track_url(@track)
       else
@@ -67,7 +69,7 @@ module V1
 
     # Only allow a trusted parameter "white list" through.
     def track_params
-      params.require(:track).permit(:name, :artist_name, :release, :file)
+      params.require(:track).permit(:name, :artist, :release, :file)
     end
   end
 end 

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
   private
 
   # Check if api key exists, and is not expired.
-  def restrict_access
+  def check_for_api_token
     authenticate_or_request_with_http_token do |token, options|
       key_exists = ApiKey.exists?(token: token)
 
