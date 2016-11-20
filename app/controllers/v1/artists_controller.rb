@@ -66,7 +66,7 @@ module V1
       end
     end
 
-    # Custom serializer for artists.
+    # Custom serializer for artists index route.
     def serialize_artists(artists) 
       json = "{["
       artists.each do |artist|
@@ -77,6 +77,7 @@ module V1
       json += "]}"
     end
 
+    # Serialize just one artist.
     def serialize_artist(artist)
       json = "{\"id\": \"#{artist.id}\",
       \"name\": \"#{artist.name}\"}"
