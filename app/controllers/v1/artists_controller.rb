@@ -22,7 +22,7 @@ module V1
       @artist = Artist.new(artist_params)
 
       if @artist.save
-        render json: @artist, status: :created, location: @artist
+        render json: @artist, status: :created, location: v1_artist_url(@artist)
       else
         render json: @artist.errors, status: :unprocessable_entity
       end
