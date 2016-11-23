@@ -2,6 +2,9 @@ class Artist < ApplicationRecord
   # Each artist has many tracks.
   has_many :tracks
 
+  # Each artist has many releases.
+  has_many :releases
+
   # Validate fields.
   validates :name, uniqueness: true
 

@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  namespace :v1, defaults: { format: 'json' } do
+  namespace :v1, defaults: {format: 'json'} do
     resources :artists
     resources :tracks
+    resources :releases
   end
   
   # You can generate a token for any API version,
   # without using a specific namespace.
-  resources :api_keys, only: [ :create ]
+  resources :api_keys, only: [:create]
 
   # To add another version, create a new namespace:
 

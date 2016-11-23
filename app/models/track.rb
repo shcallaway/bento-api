@@ -2,6 +2,9 @@ class Track < ApplicationRecord
   # Each track belongs to an artist.
   belongs_to :artist
 
+  # Each track belongs to an artist.
+  belongs_to :release
+
   # Mount the TrackUploader to the file attribute.
   mount_uploader :file, TrackUploader
 
