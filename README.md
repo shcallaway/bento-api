@@ -85,7 +85,9 @@ $ RAILS_ENV=production rake secret
 
 * PROD_SECRET_KEY_BASE
 
-## JSON Format
+## Response Format
+
+Below are example responses from each of the routes.
 
 ### GET /v1/tracks
 
@@ -99,7 +101,10 @@ $ RAILS_ENV=production rake secret
         "id": "1",
         "name": "Justin Timberlake"
       },
-      "release": "FutureSex/LoveSounds",
+      "release": {
+        "id": 1,
+        "name": "FutureSex/LoveSounds"
+      },
       "file": "https://bento-development.s3.amazonaws.com/uploads/sexy-back_justin-timberlake_futuresex/lovesounds"
     }
   ]
@@ -116,7 +121,10 @@ $ RAILS_ENV=production rake secret
     "id": "1",
     "name": "Justin Timberlake"
   },
-  "release": "FutureSex/LoveSounds",
+  "release": {
+    "id": 1,
+    "name": "FutureSex/LoveSounds"
+  },
   "file": "https://bento-development.s3.amazonaws.com/uploads/sexy-back_justin-timberlake_futuresex/lovesounds"
 }
 ```
@@ -128,7 +136,13 @@ $ RAILS_ENV=production rake secret
   [
     {
       "id": "1",
-      "name": "Justin Timberlake"
+      "name": "Justin Timberlake",
+      "releases": [
+        {
+          "id": 1,
+          "name": "FutureSex/LoveSounds"
+        }
+      ]
     }
   ]
 } 
@@ -139,7 +153,41 @@ $ RAILS_ENV=production rake secret
 ```
 {
   "id": "1",
-  "name": "Justin Timberlake"
+  "name": "Justin Timberlake",
+  "releases": [
+    {
+      "id": 1,
+      "name": "FutureSex/LoveSounds"
+    }
+  ]
+}
+```
+
+### GET /v1/releases
+
+```
+[
+  {
+    "id": 2,
+    "name": "FutureSex/LoveSounds",
+    "artist": {
+      "id": 2,
+      "name": "Justin Timberlake"
+    }
+  }
+]
+```
+
+### GET /v1/releases/1
+
+```
+{
+  "id": 2,
+  "name": "FutureSex/LoveSounds",
+  "artist": {
+    "id": 2,
+    "name": "Justin Timberlake"
+  }
 }
 ```
 
