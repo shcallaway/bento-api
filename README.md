@@ -42,9 +42,9 @@ This line calls the restrict_access method, which checks for a valid token.
 
 The API's most complicated route is easily 'create a track'. This particular route underpins the upload feature, which allows users to expand the Bento catalog by uploading audio files and providing metadata. 
 
-In order to preserve the integrity of the database, `create a track` must accomodate for scenarios in which the associated artist and/or release already exists within the catalog, as well as scenarios in which one or both of these entities is missing.
+In order to preserve the integrity of the database, 'create a track' must accomodate for scenarios in which the associated artist and/or release already exists within the catalog, as well as scenarios in which one or both of these entities is missing.
 
-Currently, the `create a track` route includes the logic for associating new tracks with existing artists and releases, as well as creating new tracks and releases if necessary. 
+Currently, the 'create a track' route includes the logic for associating new tracks with existing artists and releases, as well as creating new tracks and releases if necessary. 
 
 Here's an example of a POST /v1/tracks request, made with Postman:
 
