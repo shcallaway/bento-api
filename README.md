@@ -44,7 +44,7 @@ The API's most complicated route is easily 'create a track'. This particular rou
 
 In order to preserve the integrity of the database, 'create a track' must accomodate for scenarios in which the associated artist and/or release already exists within the catalog, as well as scenarios in which one or both of these entities is missing.
 
-Currently, the 'create a track' route includes the logic for associating new tracks with existing artists and releases, as well as creating new tracks and releases if necessary. 
+Currently, the 'create a track' route includes the logic for associating new tracks with existing artists and releases, as well as creating new artists and releases if necessary. 
 
 Here's an example of a POST /v1/tracks request, made with Postman:
 
