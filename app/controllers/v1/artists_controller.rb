@@ -76,10 +76,15 @@ module V1
       json += "]}"
     end
 
-    # Serialize just one artist.
+    # Serialize just one artist (includes associated releases).
     def serialize_artist(artist)
-      json = "{\"id\": \"#{artist.id}\",
-      \"name\": \"#{artist.name}\"}"
+      json = "{\"id\": #{artist.id},
+      \"name\": \"#{artist.name}\", \"releases\": ["
+      artist.releases.each do |release|
+        json += "{\"id\": #{release.id}, \"name\": \"#{release.name}\"}"
+        json += "," unless release == artist.releases.last
+      end
+      json += "]}"
     end       
   end
 end 
