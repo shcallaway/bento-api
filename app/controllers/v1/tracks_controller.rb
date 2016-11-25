@@ -19,37 +19,7 @@ module V1
     # POST /tracks
     def create
       # Create a new track, without any attributes.
-      @track = Track.new
-
-      # Populate attributes via params.
-      @track.name = track_params[:name]
-      @track.file = track_params[:file]
-
-      # Look for an artist with the supplied artist name.
-      # If it exists, assign it to the track.
-      if Artist.exists?(name: track_params[:artist])
-        @track.artist = Artist.where(name: track_params[:artist]).first
-      else 
-        # If it does not exist, create a new artist with the name.
-        @track.artist = Artist.new(name: track_params[:artist])
-        # Check the new artist for validity; Render artist errors if invalid.
-        return render json: {
-          errors: @track.artist.errors
-        }, status: :unprocessable_entity unless @track.artist.valid?
-      end
-
-      # Look for a release with the supplied release name, as well as
-      # the supplied artist name. If it exists, assign it to the track.
-      if Release.exists?(name: track_params[:release], artist: @track.artist)
-        @track.release = Release.where(name: track_params[:release], artist: @track.artist).first
-      else
-        # If it does not exist, create a new release with the supplied name and artist.
-        @track.release = Release.new(name: track_params[:release], artist: @track.artist)
-        # Check the new release for validity; Render release errors if invalid.
-        return render json: {
-          errors: @track.release.errors
-        }, status: :unprocessable_entity unless @track.release.valid?
-      end
+      @track = Track.new(track_params)
 
       # Attempt to save the track.
       if @track.save
@@ -116,8 +86,8 @@ module V1
     def serialize_track(track)
       json = "{\"id\": #{track.id},
       \"name\": \"#{track.name}\",
-      \"artist\": {\"id\": #{track.artist.id},\"name\": \"#{track.artist.name}\"},
-      \"release\": {\"id\": #{track.release.id},\"name\": \"#{track.release.name}\"},
+      \"artist\": \"#{track.artist}\",
+      \"release\": \"#{track.release}\",
       \"file\": \"#{track.file.url}\"}"
     end    
   end
